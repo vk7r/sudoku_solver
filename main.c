@@ -1,4 +1,23 @@
 #include <stdbool.h>
+#include <stdio.h>
+
+
+
+bool DuplicateNumbersinRow(int **board, int x)
+{
+    return false;
+}
+
+bool DuplicateNumbersinCol(int **board, int y)
+{
+    return false;
+}
+
+bool DuplicateNumbersinBox(int **board, int x, int y)
+{
+    return false;
+}
+
 
 bool ValidateBoard(int **board, int x, int y)
 {
@@ -42,4 +61,10 @@ bool Solve(int **board, int *unAssignInd, int N_unAssign, int BoardSize)
     }
     board[x][y] = 0; // No solution, reset value in backtracking
     return false;
+}
+
+int main()
+{
+    printf("HI, You're in MAIN :D\n");
+    return 0;
 }
