@@ -2,20 +2,45 @@
 #include <stdio.h>
 
 
+// PREFERABLY USE RxC
+typedef struct {
+    int **board; // 2D array, ROWS x COLUMN
+    bool solvable; // Bool displaying if board is solvable
+} Board;
+
 
 bool DuplicateNumbersinRow(int **board, int x)
 {
-    return false;
+
+    // PLACE HOLDER CODE!
+    int tmp = board[x][0];
+
+    if(tmp)
+    {
+        return false;
+    }
+    return true;
 }
 
 bool DuplicateNumbersinCol(int **board, int y)
 {
-    return false;
+    int tmp = board[0][y];
+    if(tmp)
+    {
+        return false;
+    }
+    return true;
 }
 
 bool DuplicateNumbersinBox(int **board, int x, int y)
 {
-    return false;
+    int tmp = board[x][y];
+
+    if(tmp)
+    {
+        return false;
+    }
+    return true;
 }
 
 

@@ -6,7 +6,7 @@ LDFLAGS=
 # -lm
 
 graphics_test: main.c
-	$(CC) -o main main.c $(LDFLAGS)
+	$(CC) -o main main.c $(CFLAGS) $(LDFLAGS)
 
 
 clean:
