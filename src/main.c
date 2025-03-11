@@ -1,12 +1,8 @@
-#include <stdbool.h>
+// #include <stdbool.h>
 #include <stdio.h>
+#include "sudoku.h"
 
 
-// PREFERABLY USE RxC
-typedef struct {
-    int **board; // 2D array, ROWS x COLUMN
-    bool solvable; // Bool displaying if board is solvable
-} Board;
 
 
 bool DuplicateNumbersinRow(int **board, int x)
@@ -88,8 +84,26 @@ bool Solve(int **board, int *unAssignInd, int N_unAssign, int BoardSize)
     return false;
 }
 
-int main()
-{
+
+int main() {
+
+    // Example puzzle (9x9 grid)
+    int board[3][3] = {
+        {0,0,1},
+        {2,0,3},
+        {0,0,1},
+    };
+
+    // READ/CREATE PUZZLE
+
     printf("HI, You're in MAIN :D\n");
+
+    // if (solve_sudoku(board)) {
+    //     printf("Sudoku solved!\n");
+    //     print_puzzle(board);
+    // } else {
+    //     printf("No solution found.\n");
+    // }
+
     return 0;
 }
