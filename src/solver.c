@@ -1,30 +1,28 @@
 #include "sudoku.h"
 
-bool solve(Board *board_struct, int *unAssignInd, int N_unAssign, int BoardSize)
+bool solve(Board *board_struct, Index_2D *unAssignInd, unsigned char N_unAssign)
 {
-    char **board = board_struct->board;
-
-    if (N_unAssign == 0) // No more empty position, solution found
+    if (N_unAssign == 0) // No more empty positions, solution found
     {
         return true;
     }
 
-    int index = unAssignInd[N_unAssign - 1];
-    int x = index / BoardSize;
-    int y = index % BoardSize;
+    Index_2D index = unAssignInd[N_unAssign - 1];
+    int x = index.x;
+    int y = index.y;
 
-    for (int val = 1; val <= BoardSize; val++)
+    for (unsigned char val = 1; val <= board_struct->board_size; val++)
     {
-        board[x][y] = val; // Set guess
+        board_struct->board[x][y] = val; // Set guess
         if (ValidateBoard(board_struct, x, y))
         {
             // Solve recursively
-            if (solve(board_struct, unAssignInd, N_unAssign - 1, BoardSize))
+            if (solve(board_struct, unAssignInd, N_unAssign - 1))
             {
                 return true;
             }
         }
     }
-    board[x][y] = 0; // No solution, reset value in backtracking
+    board_struct->board[x][y] = 0; // No solution, reset value in backtracking
     return false;
 }
