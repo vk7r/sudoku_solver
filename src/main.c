@@ -12,7 +12,8 @@ int main(int argv, char *argc[])
 
     char *filename = argc[1];
 
-    printf("HI, You're in MAIN :D\n");
+    double start_time = get_wall_seconds();
+    // printf("HI, You're in MAIN :D\n");
 
     // Create the board from the file
     Board *board = create_board_from_file(filename);
@@ -23,6 +24,24 @@ int main(int argv, char *argc[])
     {
         printf("Sudoku solved!\n");
         // print_board(board);
+        
+        double end_time = get_wall_seconds();
+        printf("Time taken: %f seconds\n", end_time - start_time);
+        // export_res_to_file(board, Filename);
+
+        // printf("Double Checking Validity...\n");
+        // for (int x = 0; x < board->board_length; x++)
+        // {
+        //     for (int y = 0; y < board->board_length; y++)
+        //     {
+        //         if (!ValidateBoard(board, x, y))
+        //         {
+        //             printf("Board is invalid!\n");
+        //             return 1;
+        //         }
+        //     }
+        // }
+        // printf("Board is valid!\n");
     }
     else
     {
