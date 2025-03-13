@@ -8,7 +8,7 @@ double get_wall_seconds()
     return seconds;
 }
 
-void print_board(Board *board_struct)
+void print_board(Board_t *board_struct)
 {
     int size = board_struct->board_length;
     for (int i = 0; i < size; i++)

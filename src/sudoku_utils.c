@@ -1,7 +1,7 @@
 #include "sudoku.h"
 
-// ______________________ FREE FUNCTIONS ______________________
-void destroy_board(Board *board)
+// ____________________________________________ FREE FUNCTIONS ____________________________________________
+void destroy_board(Board_t *board)
 {
     for (int i = 0; i < board->board_length; i++)
     {
@@ -16,12 +16,12 @@ void destroy_board(Board *board)
     free(board);
 }
 
-// ______________________ INTIALIZATION FUNCTIONS ______________________
+// ____________________________________________ INTIALIZATION FUNCTIONS ____________________________________________
 
 // Initialize a board of size x size with all values set to 0
-Board *init_board(unsigned char size)
+Board_t *init_board(unsigned char size)
 {
-    Board *board = (Board *)malloc(sizeof(Board));
+    Board_t *board = (Board_t *)malloc(sizeof(Board_t));
     board->tot_num_cells = size;
 
     // Create a 2D array of size x size
@@ -35,7 +35,7 @@ Board *init_board(unsigned char size)
 }
 
 // The first number form input_data is the base (e.g. 5) --> size 25x25
-Board *create_board_from_file(char *filename)
+Board_t *create_board_from_file(char *filename)
 {
     FILE *file = fopen(filename, "r");
     if (file == NULL)
@@ -44,7 +44,7 @@ Board *create_board_from_file(char *filename)
         exit(EXIT_FAILURE);
     }
 
-    Board *new_board = (Board *)malloc(sizeof(Board));
+    Board_t *new_board = (Board_t *)malloc(sizeof(Board_t));
 
     // Reads the first %d (int) from the file and stores it in new_board->tot_num_cells
     unsigned char base;
@@ -69,7 +69,7 @@ Board *create_board_from_file(char *filename)
     new_board->board = malloc(new_board->board_length * sizeof(unsigned char *));
 
     // allocating memory for the unassigned indexes array
-    new_board->unAssignInd = (Index_2D *)malloc(new_board->tot_num_cells * sizeof(Index_2D));
+    new_board->unAssignInd = (Index_2D_t *)malloc(new_board->tot_num_cells * sizeof(Index_2D_t));
     new_board->N_unAssign = 0; // init to 0
 
     // Read the board data from the file
@@ -100,28 +100,17 @@ Board *create_board_from_file(char *filename)
     return new_board;
 }
 
-// ______________________ CHECK FUNCTIONS ______________________
+// ____________________________________________ CHECK FUNCTIONS ____________________________________________
 
-bool DuplicateNumbersinRow(Board *board, int x)
+bool DuplicateNumbersinRow(Board_t *board, int x)
 {
     // Bitmap solution...
 
     int size = board->board_length;
-    // printf("INFUNC\n");
-    // printf("Board - Base: %d, len: %d\n", board->base, board->board_length);
     // Array that keeps track of numbers seen in the row, each index represents a number
-    // bool *seen = (bool *)calloc(size, sizeof(bool));
     bool seen[size];
     memset(seen, 0, size);
 
-    // Initialize seen array to false
-    // for (int i = 0; i < size; i++)
-    // {
-    //     seen[i] = false;
-    // }
-
-    // Loop through the row and check for duplicates
-    // printf("x: %d\n", x);
     for (int i = 0; i < size; i++)
     {
         unsigned char curr_num = board->board[x][i];
@@ -137,28 +126,17 @@ bool DuplicateNumbersinRow(Board *board, int x)
         }
     }
 
-    // for(int z = 0; z < size; z++)
-    // {
-    //     printf("seen[%d]: %d\n", z, seen[z]);
-    // }
-    // free(seen);
     return false;
 }
 
-bool DuplicateNumbersinCol(Board *board, int y)
+bool DuplicateNumbersinCol(Board_t *board, int y)
 {
     int size = board->board_length;
 
     // Array that keeps track of numbers seen in the row, each index represents a number
-    // bool *seen = (bool *)calloc(size, sizeof(bool));
     bool seen[size];
     memset(seen, 0, size);
 
-    // Initialize seen array to false
-    // for (int i = 0; i < size; i++)
-    // {
-    //     seen[i] = false;
-    // }
 
     // Loop through the row and check for duplicates
     for (int i = 0; i < size; i++)
@@ -174,11 +152,10 @@ bool DuplicateNumbersinCol(Board *board, int y)
             seen[curr_num - 1] = true;
         }
     }
-    // free(seen);
     return false;
 }
 
-bool DuplicateNumbersinBox(Board *board, int x, int y)
+bool DuplicateNumbersinBox(Board_t *board, int x, int y)
 {
     // board_length == amount of different numbers in each box
     int size = board->board_length;
@@ -187,13 +164,8 @@ bool DuplicateNumbersinBox(Board *board, int x, int y)
     bool seen[size];
     memset(seen, 0, size);
 
-    // for (int i = 0; i < size; i++)
-    // {
-    //     seen[i] = false;
-    // }
-
     int box_size = board->base;
-    // optimize division to make faster - or use of flag?
+
     // will truncate the decimal part to give correct index for the start of the box
     // e.g. for 3x3, 5/3 = 1, 1*3 = 3 (start of the box)
     int box_start_x = (x / box_size) * box_size;
@@ -219,9 +191,8 @@ bool DuplicateNumbersinBox(Board *board, int x, int y)
     return false; // No duplicates found
 }
 
-bool ValidateBoard(Board *board, int x, int y)
+bool ValidateBoard(Board_t *board, int x, int y)
 {
-    // printf("Before checking validity: x = %d, board_length = %d\n", x, board->board_length);
     if (x < 0 || x >= board->board_length || y < 0 || y >= board->board_length)
     {
         printf("ERROR: Coordinates out of bounds (x=%d, y=%d, board_length=%d)\n",
@@ -229,20 +200,16 @@ bool ValidateBoard(Board *board, int x, int y)
         return false;
     }
 
-    // printf("CHECKING VALIDITY WITH x: %d, y: %d\n", x, y);
     if (DuplicateNumbersinRow(board, x))
     {
-        // printf("DEAD END: Duplicate in row\n");
         return false;
     }
     if (DuplicateNumbersinCol(board, y))
     {
-        // printf("DEAD END: Duplicate in col\n");
         return false;
     }
     if (DuplicateNumbersinBox(board, x, y))
     {
-        // printf("DEAD END: Duplicate in box\n");
         return false;
     }
     return true;

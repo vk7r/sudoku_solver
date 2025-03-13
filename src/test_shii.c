@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 // Function to test duplicates in all rows
-void TestRowsForDuplicates(Board *board)
+void TestRowsForDuplicates(Board_t *board)
 {
     printf("\nTesting for duplicates in rows:\n");
     for (int row_ind = 0; row_ind < board->board_length; row_ind++)
@@ -19,7 +19,7 @@ void TestRowsForDuplicates(Board *board)
 }
 
 // Function to test duplicates in all columns
-void TestColsForDuplicates(Board *board)
+void TestColsForDuplicates(Board_t *board)
 {
     printf("\nTesting for duplicates in columns:\n");
     for (int col_ind = 0; col_ind < board->board_length; col_ind++)
@@ -36,7 +36,7 @@ void TestColsForDuplicates(Board *board)
 }
 
 // Function to test duplicates in all boxes
-void TestBoxesForDuplicates(Board *board)
+void TestBoxesForDuplicates(Board_t *board)
 {
     printf("\nTesting for duplicates in boxes:\n");
     int base = board->base; // Base size (subgrid size) of the board (e.g., 3 for 9x9, 4 for 16x16)
@@ -67,7 +67,7 @@ void TestBoxesForDuplicates(Board *board)
 int main()
 {
     // Create board from file or initialize manually
-    Board *board = create_board_from_file("input_data/board_25x25.dat");
+    Board_t *board = create_board_from_file("input_data/board_25x25.dat");
 
     // DOES NOT CURRENTLY WORK WHEN READING FROM A DAT FILE. [NEED TO FIX THIS]
 

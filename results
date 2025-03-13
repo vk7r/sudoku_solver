@@ -3,20 +3,15 @@ Test Results:
 Running test with input file: input_data/board_25x25.dat
 board length: 25, n_unass: 200
 Sudoku solved!
-Time taken: 0.002937 seconds
+Time taken: 0.002957 seconds
 Test passed!
 
 ========================================
 Running test with input file: input_data/board_36x36.dat
 board length: 36, n_unass: 400
 Sudoku solved!
-Time taken: 8.035172 seconds
+Time taken: 4.018926 seconds
 Test passed!
 
 ========================================
 Running test with input file: input_data/board_64x64.dat
-board length: 64, n_unass: 1000
-Sudoku solved!
-Time taken: 561.582482 seconds
-Test passed!
-

@@ -16,7 +16,7 @@ int main(int argv, char *argc[])
     // printf("HI, You're in MAIN :D\n");
 
     // Create the board from the file
-    Board *board = create_board_from_file(filename);
+    Board_t *board = create_board_from_file(filename);
 
     printf("board length: %d, n_unass: %d\n", board->board_length, board->N_unAssign);
     // Call the solve function with the necessary arguments from the board

@@ -1,13 +1,13 @@
 #include "sudoku.h"
 
-bool solve(Board *board_struct, Index_2D *unAssignInd, int N_unAssign)
+bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign)
 {
     if (N_unAssign == 0) // No more empty positions, solution found
     {
         return true;
     }
 
-    Index_2D index = unAssignInd[N_unAssign - 1];
+    Index_2D_t index = unAssignInd[N_unAssign - 1];
     int x = index.x;
     int y = index.y;
 
