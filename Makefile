@@ -26,5 +26,5 @@ test: src/test_shii.c src/sudoku_utils.c src/helper_funcs.c
 
 # Cleans all executables and object files
 clean:
-	rm -f src/*.o main test src_parallel/*.o parallel
+	rm -f src/*.o seq test src_parallel/*.o parallel
 
