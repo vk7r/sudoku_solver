@@ -1,24 +1,30 @@
 CC = gcc
-CFLAGS = -Ofast -march=native -funroll-loops -ftree-vectorize -fopt-info-vec-optimized -O3 -Wall -Wextra -Werror #-fopenmp 
+CFLAGS = -Ofast -march=native -funroll-loops -ftree-vectorize -fopt-info-vec-optimized -O3 -Wall -Wextra -Werror
 INCLUDES = -I./src
 
-SRC = src/main.c src/solver.c src/sudoku_utils.c src/helper_funcs.c
-OBJ = $(SRC) #:.c=.o
+SRC_SEQ = src_seq/main.c src_seq/solver.c src_seq/sudoku_utils.c src_seq/helper_funcs.c
+SRC_PAR = src_parallel/main_parallel.c src_parallel/solver_parallel.c src_parallel/sudoku_utils_parallel.c src_parallel/helper_funcs_parallel.c
 
 
 # valgrind --tool=cachegrind --branch-sim=yes # for cache profiling - branch mispredicts
 # valgrind --tool=cachegrind --cache-sim=yes
 
-main: $(OBJ)
-	$(CC) -o main $(OBJ) $(CFLAGS) $(LDFLAGS)
+all: seq parallel
 
-debug: $(OBJ)
-	$(CC) -o main $(OBJ) $(CFLAGS) $(LDFLAGS) -g
+seq: $(SRC_SEQ)
+	$(CC) -o seq $(SRC_SEQ) $(CFLAGS)
+
+debug: $(SRC_SEQ)
+	$(CC) -o seq $(SRC_SEQ) $(CFLAGS) -g
+
+parallel: $(SRC_PARALLEL) 
+	$(CC) -o parallel $(SRC_PAR) $(CFLAGS) -fopenmp
 
 test: src/test_shii.c src/sudoku_utils.c src/helper_funcs.c
 	$(CC) -o test src/test_shii.c src/sudoku_utils.c src/helper_funcs.c $(CFLAGS) $(INCLUDES)
 
 
-# Clean rule to remove object files and the executable
+# Cleans all executables and object files
 clean:
-	rm -f src/*.o main test
+	rm -f src/*.o main test src_parallel/*.o parallel
+

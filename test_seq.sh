@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TEST_COMMAND="./main"
+TEST_COMMAND="./seq"
 TEST_FILES=("input_data/board_25x25.dat" "input_data/board_36x36.dat" "input_data/board_64x64.dat") 
 RESULTS_FILE="results"
 

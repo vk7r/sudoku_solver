@@ -102,7 +102,7 @@ Board_t *create_board_from_file(char *filename)
 
 // ____________________________________________ CHECK FUNCTIONS ____________________________________________
 
-bool DuplicateNumbersinRow(Board_t *board, int x)
+inline bool DuplicateNumbersinRow(Board_t *board, int x)
 {
     // Bitmap solution...
 
@@ -129,7 +129,7 @@ bool DuplicateNumbersinRow(Board_t *board, int x)
     return false;
 }
 
-bool DuplicateNumbersinCol(Board_t *board, int y)
+inline bool DuplicateNumbersinCol(Board_t *board, int y)
 {
     int size = board->board_length;
 
@@ -155,7 +155,7 @@ bool DuplicateNumbersinCol(Board_t *board, int y)
     return false;
 }
 
-bool DuplicateNumbersinBox(Board_t *board, int x, int y)
+inline bool DuplicateNumbersinBox(Board_t *board, int x, int y)
 {
     // board_length == amount of different numbers in each box
     int size = board->board_length;
