@@ -35,7 +35,7 @@ Board_t *create_board_from_file(char *filename);
 
 
 // solver.c - FUNCTIONS
-bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign);
+bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign, int n_threads);
 
 // helper_funcs.c - FUNCTIONS
 void print_board(Board_t *board_struct);

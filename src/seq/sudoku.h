@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <string.h>
+#include <omp.h>
 
 // Index structure
 typedef struct
@@ -23,7 +24,7 @@ typedef struct
     int N_unAssign;   // Number of unassigned indexes
 } Board_t;
 
-// sudoku_utils.c - FUNCTIONS
+// sudoku_utils_parallel.c - FUNCTIONS
 void destroy_board(Board_t *board);
 bool DuplicateNumbersinRow(Board_t *board, int x);
 bool DuplicateNumbersinCol(Board_t *board, int y);
@@ -33,10 +34,10 @@ Board_t *init_board(unsigned char size);
 Board_t *create_board_from_file(char *filename);
 
 
-// solver.c - FUNCTIONS
+// solver_parallel.c - FUNCTIONS
 bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign);
 
-// helper_funcs.c - FUNCTIONS
+// helper_funcs_parallel.c - FUNCTIONS
 void print_board(Board_t *board_struct);
 double get_wall_seconds();
 

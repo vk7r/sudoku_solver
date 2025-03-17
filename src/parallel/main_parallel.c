@@ -6,26 +6,26 @@ int main(int argv, char *argc[])
 {
 
     // Check if the filename is passed as a command-line argument
-    if (argv != 2)
+    if (argv != 3)
     {
-        printf("Usage: ./sudoku <filename>\n");
+        printf("Usage: ./sudoku <filename> <n_threads>\n");
         return 1;
     }
     
     printf("Running Parrallel Version...\n");
 
     char *filename = argc[1];
+    int n_threads = atoi(argc[2]);
 
     double start_time = get_wall_seconds();
-    // printf("HI, You're in MAIN :D\n");
 
     // Create the board from the file
     Board_t *board = create_board_from_file(filename);
 
-    printf("board length: %d, n_unass: %d\n", board->board_length, board->N_unAssign);
+    printf("board length: %d, n_unass: %d, n_threads: %d\n", board->board_length, board->N_unAssign, n_threads);
     // Call the solve function with the necessary arguments from the board
 
-        if (solve(board, board->unAssignInd, board->N_unAssign))
+        if (solve(board, board->unAssignInd, board->N_unAssign, n_threads))
         {
             printf("Sudoku solved!\n");
             // print_board(board);
