@@ -4,7 +4,7 @@ Running test with input file: input_data/board_25x25.dat
 Running Sequential Version...
 board length: 25, n_unass: 200
 Sudoku solved!
-Time taken: 0.002705 seconds
+Time taken: 0.003025 seconds
 Test passed!
 
 ========================================
@@ -12,6 +12,6 @@ Running test with input file: input_data/board_36x36.dat
 Running Sequential Version...
 board length: 36, n_unass: 400
 Sudoku solved!
-Time taken: 3.959038 seconds
+Time taken: 4.036358 seconds
 Test passed!
 

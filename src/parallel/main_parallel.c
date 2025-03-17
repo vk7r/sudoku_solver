@@ -1,7 +1,5 @@
 #include "sudoku_parallel.h"
 
-// #ifdef _OPENMP
-
 int main(int argv, char *argc[])
 {
 
