@@ -11,7 +11,7 @@ int main(int argv, char *argc[])
     }
     
     printf("Running Parrallel Version...\n");
-
+    
     char *filename = argc[1];
     int n_threads = atoi(argc[2]);
 
@@ -20,21 +20,28 @@ int main(int argv, char *argc[])
     // Create the board from the file
     Board_t *board = create_board_from_file(filename);
 
-    printf("board length: %d, n_unass: %d, n_threads: %d\n", board->board_length, board->N_unAssign, n_threads);
+    printf("board length: %d, n_unass: %d, n_threads: %d\n\n", board->board_length, board->N_unAssign, n_threads);
     // Call the solve function with the necessary arguments from the board
 
-        if (solve(board, board->unAssignInd, board->N_unAssign, n_threads))
+        #pragma omp parallel num_threads(n_threads)
         {
-            printf("Sudoku solved!\n");
-            // print_board(board);
-            
-            double end_time = get_wall_seconds();
-            printf("Time taken: %f seconds\n", end_time - start_time);
-            // export_res_to_file(board, Filename);
-        }
-        else
-        {
-            printf("No solution found.\n");
+            #pragma omp single
+            {
+                if (solve(board, board->unAssignInd, board->N_unAssign))
+                {
+                    printf("Sudoku solved!\n");
+                    // print_board(board);
+                    
+                    double end_time = get_wall_seconds();
+                    printf("Time taken: %f seconds\n", end_time - start_time);
+                    // print_board(board);
+                    // export_res_to_file(board, Filename);
+                }
+                else
+                {
+                    printf("No solution found.\n");
+                }
+            }
         }
 
     // Clean up and free memory

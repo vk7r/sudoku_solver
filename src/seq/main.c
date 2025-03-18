@@ -20,7 +20,7 @@ int main(int argv, char *argc[])
     // Create the board from the file
     Board_t *board = create_board_from_file(filename);
 
-    printf("board length: %d, n_unass: %d\n", board->board_length, board->N_unAssign);
+    printf("board length: %d, n_unass: %d\n\n", board->board_length, board->N_unAssign);
     // Call the solve function with the necessary arguments from the board
 
         if (solve(board, board->unAssignInd, board->N_unAssign))

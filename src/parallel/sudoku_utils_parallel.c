@@ -34,6 +34,42 @@ Board_t *init_board(unsigned char size)
     return board;
 }
 
+
+Board_t* create_copy_of_board(Board_t *board_to_copy) {
+
+    Board_t *new_board = (Board_t *)malloc(sizeof(Board_t));
+
+    new_board->base = board_to_copy->base;
+    new_board->board_length = board_to_copy->board_length;
+    new_board->tot_num_cells = board_to_copy->tot_num_cells;
+    new_board->N_unAssign = board_to_copy->N_unAssign;
+
+    // Copy board
+    new_board->board = (unsigned char **)malloc(board_to_copy->board_length * sizeof(unsigned char *));
+
+
+    for (int i = 0; i < board_to_copy->board_length; i++) 
+    {
+        new_board->board[i] = (unsigned char *)malloc(board_to_copy->board_length * sizeof(unsigned char));
+        memcpy(new_board->board[i], board_to_copy->board[i], board_to_copy->board_length * sizeof(unsigned char));
+    }
+
+    // Allocate and copy the unAssignInd array
+    if (board_to_copy->N_unAssign > 0) 
+    {
+        new_board->unAssignInd = (Index_2D_t *)malloc(board_to_copy->N_unAssign * sizeof(Index_2D_t));
+    } 
+    else
+    {
+        new_board->unAssignInd = NULL;
+    }
+
+    memcpy(new_board->unAssignInd, board_to_copy->unAssignInd, board_to_copy->N_unAssign * sizeof(Index_2D_t));
+
+    return new_board;
+}
+
+
 // The first number form input_data is the base (e.g. 5) --> size 25x25
 Board_t *create_board_from_file(char *filename)
 {

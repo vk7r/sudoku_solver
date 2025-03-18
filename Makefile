@@ -14,11 +14,14 @@ all: seq parallel
 seq: $(SRC_SEQ)
 	$(CC) -o seq $(SRC_SEQ) $(CFLAGS)
 
-debug: $(SRC_SEQ)
+debug_seq: $(SRC_SEQ)
 	$(CC) -o seq $(SRC_SEQ) $(CFLAGS) -g
 
+debug_par : $(SRC_PAR)
+	$(CC) -o par $(SRC_PAR) $(CFLAGS) -fopenmp -g
+
 parallel: $(SRC_PARALLEL) 
-	$(CC) -o parallel $(SRC_PAR) $(CFLAGS) -fopenmp
+	$(CC) -o par $(SRC_PAR) $(CFLAGS) -fopenmp
 
 test: src/seq/test_shii.c src/seq/sudoku_utils.c src/seq/helper_funcs.c
 	$(CC) -o test src/seq/test_shii.c src/seq/sudoku_utils.c src/seq/helper_funcs.c $(CFLAGS) $(INCLUDES)
@@ -26,5 +29,5 @@ test: src/seq/test_shii.c src/seq/sudoku_utils.c src/seq/helper_funcs.c
 
 # Cleans all executables and object files
 clean:
-	rm -f src/seq/*.o seq test src/parallel/*.o parallel
+	rm -f src/seq/*.o seq test src/parallel/*.o par
 

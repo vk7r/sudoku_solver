@@ -25,6 +25,7 @@ typedef struct
 } Board_t;
 
 // sudoku_utils.c - FUNCTIONS
+Board_t *create_copy_of_board(Board_t *board_to_copy);
 void destroy_board(Board_t *board);
 bool DuplicateNumbersinRow(Board_t *board, int x);
 bool DuplicateNumbersinCol(Board_t *board, int y);
@@ -35,7 +36,7 @@ Board_t *create_board_from_file(char *filename);
 
 
 // solver.c - FUNCTIONS
-bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign, int n_threads);
+bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign);
 
 // helper_funcs.c - FUNCTIONS
 void print_board(Board_t *board_struct);
