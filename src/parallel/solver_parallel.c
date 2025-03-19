@@ -10,7 +10,7 @@ bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign)
         // printf("Sudoku solved! by thread: %d\n", omp_get_thread_num());
         #pragma omp critical
         {
-            // print_board(local_board);
+            print_board(board_struct);
             is_solved = true;
         }
         // print_board(board_struct);

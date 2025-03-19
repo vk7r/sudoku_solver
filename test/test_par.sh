@@ -3,7 +3,7 @@
 TEST_COMMAND=".././par"
 TEST_FILES=("../input_data/board_25x25.dat" "../input_data/board_36x36.dat" "../input_data/board_64x64.dat") 
 RESULTS_FILE="par_results.txt"
-THREAD_COUNTS=(2 4 8 16 32 64)
+THREAD_COUNTS=(2 4 8 16 32)
 
 # Clear the results file at the start
 echo "_____ PARALLEL TEST RESULTS _____" > $RESULTS_FILE

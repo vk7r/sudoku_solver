@@ -35,12 +35,13 @@ int main(int argv, char *argc[])
     printf("board length: %d, n_unass: %d, n_threads: %d, PAR_LIMIT: %d\n\n",
         board->board_length, board->N_unAssign, n_threads, PAR_LIMIT);
     
-    double start_time = get_wall_seconds();
+    // double start_time = get_wall_seconds();
 
     #pragma omp parallel num_threads(n_threads)
     {
         #pragma omp single
         {
+            // will print out final board if solution is found from nested solve function
             if (solve(board, board->unAssignInd, board->N_unAssign))
             {
                 printf("Sudoku solved!\n");
@@ -52,8 +53,8 @@ int main(int argv, char *argc[])
         }
     }
     
-    double end_time = get_wall_seconds();
-    printf("Time taken: %f seconds\n", end_time - start_time);
+    // double end_time = get_wall_seconds();
+    // printf("Time taken: %f seconds\n", end_time - start_time);
 
     destroy_board(board);
 

@@ -1,0 +1,22 @@
+_____ PARALLEL TEST RESULTS _____
+
+__________ 25x25 __________
+2 threads  - 0.0097 seconds
+4 threads  - 0.0099 seconds
+8 threads  - 0.0100 seconds
+16 threads - 0.0119 seconds
+32 threads - 0.0155 seconds
+
+__________ 36x36 __________
+2 threads  - 0.9509 seconds
+4 threads  - 1.2612 seconds
+8 threads  - 1.6193 seconds
+16 threads - 1.3770 seconds
+32 threads - 1.0518 seconds
+
+__________ 64x64 __________
+2 threads  - 471.5903 seconds
+4 threads  - 465.3692 seconds
+8 threads  - 282.2122 seconds
+16 threads - 179.0553 seconds
+32 threads - 8.3095 seconds
