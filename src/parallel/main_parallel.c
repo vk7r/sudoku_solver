@@ -21,7 +21,16 @@ int main(int argv, char *argc[])
     Board_t *board = create_board_from_file(filename);
     
     // Magic number received from testing
-    PAR_LIMIT = board->N_unAssign - (2*board->tot_num_cells/100); //board->N_unAssign - 16; //n_threads; //(8*board->N_unAssign) / 10;
+    // PAR_LIMIT = board->N_unAssign - (4*board->tot_num_cells/100); //board->N_unAssign - 16; //n_threads; //(8*board->N_unAssign) / 10;
+    
+    // adjustikng the PAR_LIMIT as for a bigger board larger tasks are created
+    if (board->board_length >= 50) {
+        PAR_LIMIT = board->N_unAssign - (4 * board->tot_num_cells / 100);
+    } else if (board->board_length >= 25) {
+        PAR_LIMIT = board->N_unAssign - (2 * board->tot_num_cells / 100);
+    } else {
+        PAR_LIMIT = board->N_unAssign - (1 * board->tot_num_cells / 100);
+    }
 
     printf("board length: %d, n_unass: %d, n_threads: %d, PAR_LIMIT: %d\n\n",
         board->board_length, board->N_unAssign, n_threads, PAR_LIMIT);

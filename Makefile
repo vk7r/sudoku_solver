@@ -29,5 +29,5 @@ test: src/seq/test_shii.c src/seq/sudoku_utils.c src/seq/helper_funcs.c
 
 # Cleans all executables and object files
 clean:
-	rm -f src/seq/*.o seq test src/parallel/*.o par
+	rm -f src/seq/*.o seq src/parallel/*.o par
 
