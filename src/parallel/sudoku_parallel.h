@@ -5,6 +5,9 @@
 #include <string.h>
 #include <omp.h>
 
+// Global const.
+extern int PAR_LIMIT;
+
 // Index structure
 typedef struct
 {

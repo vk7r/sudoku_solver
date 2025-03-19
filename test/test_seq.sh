@@ -1,8 +1,8 @@
 #!/bin/bash
 
 TEST_COMMAND="./seq"
-TEST_FILES=("input_data/board_25x25.dat" "input_data/board_36x36.dat" "input_data/board_64x64.dat") 
-RESULTS_FILE="results"
+TEST_FILES=("../input_data/board_25x25.dat" "../input_data/board_36x36.dat" "../input_data/board_64x64.dat") 
+RESULTS_FILE="seq_results"
 
 
 run_test() {
@@ -21,6 +21,8 @@ check_result() {
 }
 
 # Main
+echo "_____ SEQUENTIAL TEST _____"
+
 echo "Test Results:" > $RESULTS_FILE
 
 for file in "${TEST_FILES[@]}"; do
