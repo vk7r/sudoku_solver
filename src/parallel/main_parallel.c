@@ -41,6 +41,8 @@ int main(int argv, char *argc[])
     {
         #pragma omp single
         {
+          #pragma omp taskgroup 
+          {
             // will print out final board if solution is found from nested solve function
             if (solve(board, board->unAssignInd, board->N_unAssign))
             {
@@ -50,6 +52,7 @@ int main(int argv, char *argc[])
             {
                 printf("No solution found.\n");
             }
+          }
         }
     }
     

@@ -12,6 +12,7 @@ bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign)
         {
             print_board(board_struct);
             is_solved = true;
+            #pragma omp cancel taskgroup
         }
         // print_board(board_struct);
         return true;
@@ -24,7 +25,8 @@ bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign)
 
     if (is_solved)
     {
-        // printf("SOME OTHER SOLVED IT :D\n");
+        // printf("SOME OTHER SOLVED IT :D\n"); 
+        #pragma omp cancellation point taskgroup
         return false;  // A solution is found somewhere --> break
     }
 
