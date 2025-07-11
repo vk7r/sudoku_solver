@@ -19,7 +19,7 @@ typedef struct
 // Board structure (RxC)
 typedef struct
 {
-    unsigned char **board;      // 2D array, ROWS x COLUMN
+    unsigned char *board;      // 1D array (CHANGED)
     unsigned char base;         // Base of the board
     unsigned char board_length; // Length of the board
     int tot_num_cells;    // Size of the board

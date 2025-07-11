@@ -15,7 +15,7 @@ void print_board(Board_t *board_struct)
     {
         for (int j = 0; j < size; j++)
         {
-            printf("%d  ", board_struct->board[i][j]);
+            printf("%d  ", board_struct->board[i * size + j]);
         }
         printf("\n\n");
     }

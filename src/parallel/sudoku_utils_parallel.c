@@ -3,10 +3,7 @@
 // ____________________________________________ FREE FUNCTIONS ____________________________________________
 void destroy_board(Board_t *board)
 {
-    for (int i = 0; i < board->board_length; i++)
-    {
-        free(board->board[i]);
-    }
+    // Since board is now 1D, just free it once
     free(board->board);
 
     if (board->unAssignInd != NULL)
@@ -22,14 +19,17 @@ void destroy_board(Board_t *board)
 Board_t *init_board(unsigned char size)
 {
     Board_t *board = (Board_t *)malloc(sizeof(Board_t));
-    board->tot_num_cells = size;
+    board->tot_num_cells = size * size;
+    board->board_length = size;
 
-    // Create a 2D array of size x size
-    board->board = (unsigned char **)malloc(board->tot_num_cells * sizeof(unsigned char *));
-    for (int i = 0; i < board->tot_num_cells; i++)
-    {
-        board->board[i] = (unsigned char *)malloc(board->tot_num_cells * sizeof(unsigned char));
-    }
+    // Create a 1D array of size*size
+    board->board = (unsigned char *)malloc(board->tot_num_cells * sizeof(unsigned char));
+
+    // Initialize all cells to 0
+    memset(board->board, 0, board->tot_num_cells * sizeof(unsigned char));
+
+    board->unAssignInd = NULL;
+    board->N_unAssign = 0;
 
     return board;
 }
@@ -44,27 +44,20 @@ Board_t* create_copy_of_board(Board_t *board_to_copy) {
     new_board->tot_num_cells = board_to_copy->tot_num_cells;
     new_board->N_unAssign = board_to_copy->N_unAssign;
 
-    // Copy board
-    new_board->board = (unsigned char **)malloc(board_to_copy->board_length * sizeof(unsigned char *));
-
-
-    for (int i = 0; i < board_to_copy->board_length; i++) 
-    {
-        new_board->board[i] = (unsigned char *)malloc(board_to_copy->board_length * sizeof(unsigned char));
-        memcpy(new_board->board[i], board_to_copy->board[i], board_to_copy->board_length * sizeof(unsigned char));
-    }
+    // Allocate 1D board array
+    new_board->board = (unsigned char *)malloc(new_board->tot_num_cells * sizeof(unsigned char));
+    memcpy(new_board->board, board_to_copy->board, new_board->tot_num_cells * sizeof(unsigned char));
 
     // Allocate and copy the unAssignInd array
     if (board_to_copy->N_unAssign > 0) 
     {
         new_board->unAssignInd = (Index_2D_t *)malloc(board_to_copy->N_unAssign * sizeof(Index_2D_t));
+        memcpy(new_board->unAssignInd, board_to_copy->unAssignInd, board_to_copy->N_unAssign * sizeof(Index_2D_t));
     } 
     else
     {
         new_board->unAssignInd = NULL;
     }
-
-    memcpy(new_board->unAssignInd, board_to_copy->unAssignInd, board_to_copy->N_unAssign * sizeof(Index_2D_t));
 
     return new_board;
 }
@@ -99,10 +92,10 @@ Board_t *create_board_from_file(char *filename)
 
     new_board->base = base;
     new_board->board_length = length;
-    new_board->tot_num_cells = new_board->board_length * new_board->board_length;
+    new_board->tot_num_cells = length * length;
 
-    // Allocate memory for the 2D board array (board_length x board_length)
-    new_board->board = malloc(new_board->board_length * sizeof(unsigned char *));
+    // Allocate memory for the 1D board array (length * length)
+    new_board->board = (unsigned char *)malloc(new_board->tot_num_cells * sizeof(unsigned char));
 
     // allocating memory for the unassigned indexes array
     new_board->unAssignInd = (Index_2D_t *)malloc(new_board->tot_num_cells * sizeof(Index_2D_t));
@@ -111,18 +104,16 @@ Board_t *create_board_from_file(char *filename)
     // Read the board data from the file
     for (int i = 0; i < new_board->board_length; i++)
     {
-        // allocates each row of the 2D array for each iteration of the loop
-        new_board->board[i] = (unsigned char *)malloc(new_board->board_length * sizeof(unsigned char));
         for (int j = 0; j < new_board->board_length; j++)
         {
-            if (fread(&(new_board->board[i][j]), sizeof(char), 1, file) != 1)
+            if (fread(&(new_board->board[i * new_board->board_length + j]), sizeof(char), 1, file) != 1)
             {
                 perror("Error reading board data from file");
                 exit(EXIT_FAILURE);
             }
 
             // Check if the current cell is unassigned --> add to unassigned indexes array and N_unAssign
-            if (new_board->board[i][j] == 0)
+            if (new_board->board[i * new_board->board_length + j] == 0)
             {
                 new_board->unAssignInd[new_board->N_unAssign].x = i;
                 new_board->unAssignInd[new_board->N_unAssign].y = j;
@@ -140,22 +131,17 @@ Board_t *create_board_from_file(char *filename)
 
 inline bool DuplicateNumbersinRow(Board_t *board, int x)
 {
-    // Bitmap solution...
-
     int size = board->board_length;
-    // Array that keeps track of numbers seen in the row, each index represents a number
     bool seen[size];
     memset(seen, 0, size);
 
     for (int i = 0; i < size; i++)
     {
-        unsigned char curr_num = board->board[x][i];
+        unsigned char curr_num = board->board[x * size + i];
         if (curr_num != 0)
         {
             if (seen[curr_num - 1]) // if the number has been seen before
             {
-                // printf("x: %d, i: %d\n", x, i);
-                // printf("curr_num: %d, seen[%d]: %d\n", curr_num,curr_num-1, seen[curr_num - 1]);
                 return true; // Duplicate found!
             }
             seen[curr_num - 1] = true;
@@ -168,22 +154,17 @@ inline bool DuplicateNumbersinRow(Board_t *board, int x)
 inline bool DuplicateNumbersinCol(Board_t *board, int y)
 {
     int size = board->board_length;
-
-    // Array that keeps track of numbers seen in the row, each index represents a number
     bool seen[size];
     memset(seen, 0, size);
 
-
-    // Loop through the row and check for duplicates
     for (int i = 0; i < size; i++)
     {
-        unsigned char curr_num = board->board[i][y];
-
+        unsigned char curr_num = board->board[i * size + y];
         if (curr_num != 0)
         {
-            if (seen[curr_num - 1]) // if the number has been seen before
+            if (seen[curr_num - 1])
             {
-                return true; // Duplicate found!
+                return true;
             }
             seen[curr_num - 1] = true;
         }
@@ -193,27 +174,20 @@ inline bool DuplicateNumbersinCol(Board_t *board, int y)
 
 inline bool DuplicateNumbersinBox(Board_t *board, int x, int y)
 {
-    // board_length == amount of different numbers in each box
     int size = board->board_length;
-
-    // bool *seen = (bool *)calloc(size, sizeof(bool));
     bool seen[size];
     memset(seen, 0, size);
 
     int box_size = board->base;
 
-    // will truncate the decimal part to give correct index for the start of the box
-    // e.g. for 3x3, 5/3 = 1, 1*3 = 3 (start of the box)
     int box_start_x = (x / box_size) * box_size;
     int box_start_y = (y / box_size) * box_size;
 
-    // Iterate over the box
-    for (int i = 0; i < box_size; i++) // will iterate as many times as the box size
+    for (int i = 0; i < box_size; i++)
     {
         for (int j = 0; j < box_size; j++)
         {
-            unsigned char curr_num = board->board[box_start_x + i][box_start_y + j];
-
+            unsigned char curr_num = board->board[(box_start_x + i) * size + (box_start_y + j)];
             if (curr_num != 0)
             {
                 if (seen[curr_num - 1])
@@ -223,8 +197,7 @@ inline bool DuplicateNumbersinBox(Board_t *board, int x, int y)
         }
     }
 
-    // free(seen);
-    return false; // No duplicates found
+    return false;
 }
 
 bool ValidateBoard(Board_t *board, int x, int y)
