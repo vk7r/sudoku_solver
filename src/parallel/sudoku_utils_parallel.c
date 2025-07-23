@@ -132,41 +132,36 @@ Board_t *create_board_from_file(char *filename)
 inline bool DuplicateNumbersinRow(Board_t *board, int x)
 {
     int size = board->board_length;
-    bool seen[size];
-    memset(seen, 0, size);
+    unsigned int seen = 0;
 
     for (int i = 0; i < size; i++)
     {
         unsigned char curr_num = board->board[x * size + i];
         if (curr_num != 0)
         {
-            if (seen[curr_num - 1]) // if the number has been seen before
-            {
-                return true; // Duplicate found!
-            }
-            seen[curr_num - 1] = true;
+            unsigned int mask = 1u << (curr_num - 1);
+            if (seen & mask)
+                return true;  // duplicate found
+            seen |= mask;
         }
     }
-
     return false;
 }
 
 inline bool DuplicateNumbersinCol(Board_t *board, int y)
 {
     int size = board->board_length;
-    bool seen[size];
-    memset(seen, 0, size);
+    unsigned int seen = 0;
 
     for (int i = 0; i < size; i++)
     {
         unsigned char curr_num = board->board[i * size + y];
         if (curr_num != 0)
         {
-            if (seen[curr_num - 1])
-            {
+            unsigned int mask = 1u << (curr_num - 1);
+            if (seen & mask)
                 return true;
-            }
-            seen[curr_num - 1] = true;
+            seen |= mask;
         }
     }
     return false;
@@ -175,9 +170,7 @@ inline bool DuplicateNumbersinCol(Board_t *board, int y)
 inline bool DuplicateNumbersinBox(Board_t *board, int x, int y)
 {
     int size = board->board_length;
-    bool seen[size];
-    memset(seen, 0, size);
-
+    unsigned int seen = 0;
     int box_size = board->base;
 
     int box_start_x = (x / box_size) * box_size;
@@ -190,13 +183,13 @@ inline bool DuplicateNumbersinBox(Board_t *board, int x, int y)
             unsigned char curr_num = board->board[(box_start_x + i) * size + (box_start_y + j)];
             if (curr_num != 0)
             {
-                if (seen[curr_num - 1])
+                unsigned int mask = 1u << (curr_num - 1);
+                if (seen & mask)
                     return true;
-                seen[curr_num - 1] = true;
+                seen |= mask;
             }
         }
     }
-
     return false;
 }
 

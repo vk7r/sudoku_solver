@@ -4,7 +4,7 @@
 #include <sys/time.h>
 #include <string.h>
 #include <omp.h>
-
+#include <stdint.h>
 // Global const.
 extern int PAR_LIMIT;
 

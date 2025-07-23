@@ -5,13 +5,21 @@ bool is_solved = false;
 
 bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign)
 {
+    //#pragma omp cancellation point(taskgroup) // Check for found solution
+
+    if (is_solved)
+    {
+        return false;  // A solution is found somewhere --> break
+    }
+  
     if (N_unAssign == 0) // No more empty positions, solution found
     {
         #pragma omp critical
         {
-            print_board(board_struct);
+            //print_board(board_struct);
             is_solved = true;
         }
+        //#pragma omp cancel taskgroup
         return true;
     }
 
@@ -19,10 +27,6 @@ bool solve(Board_t *board_struct, Index_2D_t *unAssignInd, int N_unAssign)
     int x = index.x;
     int y = index.y;
 
-    if (is_solved)
-    {
-        return false;  // A solution is found somewhere --> break
-    }
 
     if (N_unAssign > PAR_LIMIT)
     {

@@ -35,7 +35,7 @@ int main(int argv, char *argc[])
     printf("board length: %d, n_unass: %d, n_threads: %d, PAR_LIMIT: %d\n\n",
         board->board_length, board->N_unAssign, n_threads, PAR_LIMIT);
     
-    // double start_time = get_wall_seconds();
+    double start_time = get_wall_seconds();
 
     #pragma omp parallel num_threads(n_threads)
     {
@@ -53,8 +53,8 @@ int main(int argv, char *argc[])
         }
     }
     
-    // double end_time = get_wall_seconds();
-    // printf("Time taken: %f seconds\n", end_time - start_time);
+    double end_time = get_wall_seconds();
+    printf("%d Threads - solved in %f seconds\n",n_threads, end_time - start_time);
 
     destroy_board(board);
 
